@@ -100,4 +100,9 @@ public partial class MainWindow : Window
 
         WildsubnetCalced.Content = $"Wild Subnet Mask: {InvertArray(bytes)}";
     }
+
+    private void decimalToBinary_Click(object? sender, RoutedEventArgs e)
+    {
+      //  throw new NotImplementedException();
+    }
 }

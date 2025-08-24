@@ -11,16 +11,25 @@
 
     <Grid Loaded="Grid_Loaded">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="1*" />
-            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="1*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <ComboBox x:Name="SubnetMask"  Grid.Column="0" Grid.Row="0"/>
-        <Button x:Name="SubnetShow" Content="Alhálózati maszk" Grid.Column="1" Grid.Row="0" Click="subnetShow_Click"/>
+        <Button x:Name="SubnetShow" Content="Subnet Mask" Grid.Column="1" Grid.Row="0" Click="subnetShow_Click"/>
+        
+        
+        <Button x:Name="DecToBin" Content="Decimal to Binary" Grid.Column="1" Grid.Row="1" Click="decimalToBinary_Click"/>
+        
+        <TextBox x:Name="InputFieldIp" Grid.Column="0" Grid.Row="2" Watermark="Enter IPv4 address"/>
+        
         <Label x:Name="SubnetCalced" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Grid.Row="0"/>
         <Label x:Name="WildsubnetCalced" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Grid.Row="1"/>
     </Grid>
