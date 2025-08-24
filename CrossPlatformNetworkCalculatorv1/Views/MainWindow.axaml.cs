@@ -27,63 +27,52 @@ public partial class MainWindow : Window
    private string GetSubnetAddressFromIpNetMask(string netMask)
     {
         string subNetMask = string.Empty;
-        double result = 0;
         if (!string.IsNullOrEmpty(netMask))
         {
             int calSubNet = 32 - Convert.ToInt32(netMask);
-            if (calSubNet is >= 0 and <= 8)
+    
+            if (calSubNet is >= 0 and <= 32)
             {
-                for (int ipower = 0; ipower < calSubNet; ipower++)
+                double result = 0;
+                int octetIndex = calSubNet / 8;
+                int bitsInOctet = calSubNet % 8;
+        
+                if (bitsInOctet == 0 && calSubNet > 0)
                 {
-                    result += Math.Pow(2, ipower);
+                    octetIndex--;
+                    bitsInOctet = 8;
                 }
-
-                double finalSubnet = 255 - result;
-                subNetMask = "255.255.255." + Convert.ToString(finalSubnet, CultureInfo.InvariantCulture);
-            }
-            else if (calSubNet is > 8 and <= 16)
-            {
-                int secOctet = 16 - calSubNet;
-
-                secOctet = 8 - secOctet;
-
-                for (int ipower = 0; ipower < secOctet; ipower++)
+        
+                for (int i = 0; i < bitsInOctet; i++)
                 {
-                    result += Math.Pow(2, ipower);
+                    result += Math.Pow(2, i);
                 }
-
+        
                 double finalSubnet = 255 - result;
-                subNetMask = "255.255." + Convert.ToString(finalSubnet, CultureInfo.InvariantCulture) + ".0";
-            }
-            else if (calSubNet is > 16 and <= 24)
-            {
-                int thirdOctet = 24 - calSubNet;
-
-                thirdOctet = 8 - thirdOctet;
-
-                for (int ipower = 0; ipower < thirdOctet; ipower++)
+        
+                string[] octets = new string[4];
+        
+                for (int i = 0; i < 4; i++)
                 {
-                    result += Math.Pow(2, ipower);
+                    octets[i] = "255";
                 }
-
-                double finalSubnet = 255 - result;
-                subNetMask = "255." + Convert.ToString(finalSubnet, CultureInfo.InvariantCulture) + ".0.0";
-            }
-            else if (calSubNet is > 24 and <= 32)
-            {
-                int fourthOctet = 32 - calSubNet;
-
-                fourthOctet = 8 - fourthOctet;
-
-                for (int ipower = 0; ipower < fourthOctet; ipower++)
+        
+                for (int i = 0; i < 3 - octetIndex; i++)
                 {
-                    result += Math.Pow(2, ipower);
+                    octets[i] = "255";
                 }
-
-                double finalSubnet = 255 - result;
-                subNetMask = Convert.ToString(finalSubnet, CultureInfo.InvariantCulture) + ".0.0.0";
+        
+                octets[3 - octetIndex] = Convert.ToString(finalSubnet, CultureInfo.InvariantCulture);
+        
+                for (int i = 3 - octetIndex + 1; i < 4; i++)
+                {
+                    octets[i] = "0";
+                }
+        
+                subNetMask = string.Join(".", octets);
             }
         }
+        
 
         return subNetMask;
     }
